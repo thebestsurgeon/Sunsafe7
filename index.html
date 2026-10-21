@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SunSafe — Health Intelligence</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0F172A">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand"><div class="logo">☀️</div><div><h1>SunSafe</h1><p id="location">Health Intelligence • Live Monitoring</p></div></div>
+  <div class="live-pill"><span class="dot"></span> LIVE</div>
+</header>
+
+<section class="landing">
+  <div class="landing-content">
+    <span class="kicker">HEALTH INTELLIGENCE PLATFORM</span>
+    <h2>Stay safe under the sun,<br>every day.</h2>
+    <p>SunSafe tracks UV exposure, hydration, kidney stress, and air quality with predictive AI. Simple, friendly, and made for daily use.</p>
+    <div class="landing-stats">
+      <div><strong>☀️ 12 min</strong><span>Safe sun limit today</span></div>
+      <div><strong>💧 2.8L</strong><span>Water goal</span></div>
+      <div><strong>🌬️ 84%</strong><span>Air prediction accuracy</span></div>
+    </div>
+  </div>
+  <div class="landing-visual">
+    <div class="mini-card blue"><span>UV INDEX</span><strong>9.2</strong><small class="status-danger">Extreme</small></div>
+    <div class="mini-card"><span>TEMP</span><strong>36°</strong><small>Warm</small></div>
+    <div class="mini-card"><span>HUMIDITY</span><strong>28%</strong><small>Dry air</small></div>
+  </div>
+</section>
+
+<main class="main">
+<section class="hero">
+  <div class="hero-card uv-card">
+    <div class="card-head"><span class="eyebrow">UV INDEX • LIVE</span><span class="badge danger">Extreme Risk</span></div>
+    <div class="big-row"><div class="big">9.2</div><div class="big-sub">WHO Scale 0-11+<br>Peak: 11:00-16:00</div></div>
+    <div class="progress-line"><div id="uvBar" style="width:92%"></div></div>
+    <div id="aiUvPred" class="alert-box danger">🔴 AI: Skin damage in 18 mins if unprotected. Find shade soon.</div>
+  </div>
+  <div class="hero-grid">
+    <div class="hero-card"><span class="eyebrow">TEMPERATURE</span><div class="big" id="tempVal">36°</div><span class="sub" id="aiTempPred">AI: +28% load</span></div>
+    <div class="hero-card"><span class="eyebrow">HUMIDITY</span><div class="big" id="humVal">28%</div><span class="sub">Dry air — hydrate</span></div>
+  </div>
+</section>
+
+<nav class="tabs">
+  <button class="tab active" onclick="showTab('sun',this)">☀️ Sun</button>
+  <button class="tab" onclick="showTab('kidney',this)">💙 Kidney</button>
+  <button class="tab" onclick="showTab('asthma',this)">🌿 Breathing</button>
+  <button class="tab" onclick="showTab('water',this)">💧 Water</button>
+</nav>
+
+<div id="tab-sun" class="tab-pane">
+  <div class="card">
+    <div class="card-head"><h3>Sun Tracker</h3><span class="badge neutral">AI Powered</span></div>
+    <div class="timer-wrap"><div id="timerRing" class="ring"></div><div class="timer-center"><div id="timerDisplay">00:00</div><p id="timerInfo">Safe: 12 min</p></div></div>
+    <div class="progress-line"><div id="timerBar"></div></div>
+    <div id="aiPrediction" class="alert-box neutral">AI ready. Start monitoring to get your forecast.</div>
+    <div class="action-row"><button id="sunBtn" class="btn primary" onclick="toggleSun()">Start Monitoring</button><button class="btn ghost" onclick="resetTimer()">Reset</button></div>
+  </div>
+</div>
+
+<div id="tab-kidney" class="tab-pane hidden">
+  <div class="card soft-blue">
+    <div class="card-head"><h3>💙 Kidney Health</h3><span class="badge blue">AI Model</span></div>
+    <p class="small">AI checks urine color, water, heat and sun time.</p>
+    <div class="score-box"><div><span>STRESS SCORE</span><strong id="kidneyScore">72/100 Moderate</strong><span id="kidneyPred">AI: Safe for 2 hours</span></div><div id="kidneyCircle" class="circle">72</div></div>
+  </div>
+  <div class="card">
+    <h4>Urine Color</h4>
+    <div class="urine-grid">
+      <button class="urine" style="background:#FFFDE7" onclick="setUrine('Clear - Overhydrated',90)"></button>
+      <button class="urine active" style="background:#FFF9C4" onclick="setUrine('Pale Yellow - Perfect',20)"></button>
+      <button class="urine" style="background:#FFEB3B" onclick="setUrine('Yellow - Drink Soon',50)"></button>
+      <button class="urine" style="background:#FBC02D" onclick="setUrine('Dark Yellow - Dehydrated!',80)"></button>
+      <button class="urine" style="background:#FF8F00" onclick="setUrine('Amber - Severe!',95)"></button>
+      <button class="urine" style="background:#5D4037" onclick="setUrine('Brown - See Doctor!',100)"></button>
+    </div>
+    <div id="urineStatus" class="alert-box success">✅ Pale Yellow — You're well hydrated!</div>
+  </div>
+  <div id="kidneyAlerts"></div>
+  <div class="card">
+    <h4>How are you feeling?</h4>
+    <div class="checks"><label><input type="checkbox" id="swelling"> Swelling feet</label><label><input type="checkbox" id="fatigue"> Fatigue</label><label><input type="checkbox" id="pain"> Back pain</label><label><input type="checkbox" id="nausea"> Nausea</label></div>
+    <button class="btn primary w-full mt-3" onclick="checkKidney()">Analyze with AI</button>
+  </div>
+</div>
+
+<div id="tab-asthma" class="tab-pane hidden">
+  <div class="card soft-green">
+    <div class="card-head"><h3>🌿 Breathing & Air</h3><span class="badge danger" id="aqiBadge">Unhealthy</span></div>
+    <p class="small" id="asthmaAiForecast">AI forecasting air pattern...</p>
+    <div class="air-grid"><div class="air-box"><span>AQI</span><strong id="aqiVal">112</strong><small id="aqiLabel">Unhealthy</small></div><div class="air-box"><span>PM2.5</span><strong id="pm25">38 µg</strong><small>Threshold 35</small></div><div class="air-box"><span>PM10</span><strong id="pm10">89 µg</strong><small>Dust</small></div><div class="air-box"><span>O₃</span><strong id="o3">42 µg</strong><small>Ozone</small></div></div>
+  </div>
+  <div class="card"><h4>Triggers</h4><div id="asthmaTriggers" class="trigger-list"></div><div id="asthmaAlert" class="alert-box hidden"></div></div>
+  <div class="card"><button class="btn primary w-full" onclick="testAir()">Refresh Air Data</button></div>
+</div>
+
+<div id="tab-water" class="tab-pane hidden">
+  <div class="card center soft-blue"><h3>💧 Hydration</h3><div class="big" id="waterDisplay">1200 / 2800 ml</div><div class="progress-line"><div id="waterBar" style="width:42%"></div></div><div id="waterAi" class="alert-box warning mt-3">You need 600ml in next 45 mins to stay safe.</div></div>
+  <div class="grid2"><button class="card btn-card" onclick="addWater(250)">🥤 +250ml</button><button class="card btn-card primary-card" onclick="addWater(500)">🍶 +500ml</button></div>
+</div>
+
+<div class="chat-widget">
+  <div class="chat-header" onclick="toggleChat()">🤖 SunSafe AI — English Voice <span id="chatToggle">▲</span><span class="status-dot good"></span></div>
+  <div id="chatBody" class="chat-body">
+    <div id="chatBox" class="chat-box"><div class="msg ai">Hi! I'm SunSafe AI — English voice. Tap 🎤 and say "my urine is dark" or "is air safe?" — I'll reply in English.</div></div>
+    <div class="chat-input-row">
+      <input id="userQ" placeholder="Ask in English..." onkeydown="if(event.key==='Enter')askAI()">
+      <button onclick="askAI()">Send</button>
+      <button id="micBtn" onclick="startVoice()" style="background:#EF4444;width:48px">🎤</button>
+      <button id="speakBtn" onclick="toggleSpeech()" style="background:#16A34A;width:48px">🔊</button>
+    </div>
+    <div id="voiceStatus" style="text-align:center;font-size:11px;color:#6B7280;padding:6px;display:none">Listening in English...</div>
+  </div>
+</div>
+
+</main>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js')}</script>
+<script src="script.js"></script>
+</body>
+  </html>
